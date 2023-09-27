@@ -32,7 +32,7 @@ To run the Multi Camera Visitor Tracking System via the command line interface (
 1. **Clone the Repository:** Clone the repo to local machine
 
 ``` shell
-git clone https://github.com/yourusername/your-repository.git
+git clone https://github.com/AtalGupta/visitor-dwell-time.git
 ```
 2. **Run system**: Run the Multi Camera Visitor Tracking System using the following command:
 
