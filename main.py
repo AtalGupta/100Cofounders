@@ -22,7 +22,8 @@ prop=Properties(path)
 roi=np.array([400,200,850,600])
 org_height,org_width,org_fps,org_num_frames=prop.height(),prop.width(),prop.fps(),prop.num_frames()
 # print("Original height:{}, width:{}".format(org_height, org_width))
-
+image_dir_path="outputs\image_directory"
+df_dir_path="outputs\dataframe_dir"
 detector=Detector(path,model=model_1,height=org_height,width=org_width,ROI=roi)
 out_path="outputs"
 frame_list=detector.detect()
@@ -31,8 +32,7 @@ Time=timer(frame_list,roi)
 result=Time.put_time()
 Video_maker=VideoEncoder(fps=5,width=org_width,height=org_height)
 Video_maker.encode_frames(result,"outputs")
-image_dir_path="outputs\image_directory"
-df_dir_path="outputs\dataframe_dir"
+
 
 
 
