@@ -9,6 +9,8 @@ from utils.properties import Properties,save_data,delete_directory
 from utils.detect_time import timer
 from utils.make_video import VideoEncoder
 from utils.Dataset import FrameExtractor
+from utils.fps_conversion import convert_to_5fps
+from utils.ROI_drawing import select_roi_from_video
 import os
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -18,10 +20,12 @@ model_2 = YOLO('models\yolov8n-pose.pt')  # Load an official Segment model
 model_3 = YOLO('models\yolov8n-seg.pt')  # Load an official Pose model
 
 # print("Model_1 info:",model_1.info(detailed=True),end='\n')
-path="Shortit.mp4"
+input_path="Shortit.mp4"
+convert_to_5fps(input_path, "5fps_video.mp4")
+path="5fps_video.mp4"
 prop=Properties(path)
 # prop.display_properties()
-roi=np.array([400,200,850,600])
+roi=np.array(select_roi_from_video(path))
 org_height,org_width,org_fps,org_num_frames=prop.height(),prop.width(),prop.fps(),prop.num_frames()
 # print("Original height:{}, width:{}".format(org_height, org_width))
 image_dir_path="outputs\image_directory"
