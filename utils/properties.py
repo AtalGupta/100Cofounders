@@ -1,5 +1,6 @@
 import cv2
 import os
+import shutil
 class Properties:
     def __init__(self,video_path):
         self.capture=cv2.VideoCapture(video_path)
@@ -55,5 +56,24 @@ def save_data(data_list,image_dir_path,df_dir_path):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
+def delete_directory(directory_path):
+    """
+    Deletes a directory and its contents if it exists.
 
-        
+    :param directory_path: The path of the directory to be deleted.
+    """
+    if os.path.exists(directory_path):
+        try:
+            shutil.rmtree(directory_path)
+            print(f"Directory '{directory_path}' deleted successfully.")
+        except OSError as e:
+            print(f"Error deleting directory '{directory_path}': {e}")
+    else:
+        print(f"Directory '{directory_path}' does not exist.")
+
+
+
+
+
+
+
