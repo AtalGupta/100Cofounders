@@ -1,7 +1,17 @@
 import cv2
 
-
 def convert_to_5fps(input_video_path, output_video_path):
+    """
+    Converts a video to 5 frames per second (fps) and saves the result to a new video file.
+
+    Args:
+        input_video_path (str): The path to the input video file.
+        output_video_path (str): The path to the output video file.
+
+    Raises:
+        ValueError: If the input video file cannot be opened.
+    """
+
     cap = cv2.VideoCapture(input_video_path)
 
     if not cap.isOpened():

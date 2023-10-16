@@ -1,6 +1,16 @@
 import cv2
 
 def select_roi_from_video(video_path):
+    """
+    Allows the user to select a Region of Interest (ROI) from a video frame.
+
+    Args:
+        video_path (str): The path to the video file.
+
+    Returns:
+        list: A list containing the coordinates of the selected ROI in the format [x1, y1, x2, y2].
+            Returns an empty list if the ROI selection was not successful.
+    """
     cap = cv2.VideoCapture(video_path)
     ret, frame = cap.read()
 
@@ -38,7 +48,7 @@ def select_roi_from_video(video_path):
 
         cv2.imshow("Select ROI", frame)
 
-        if cv2.waitKey(100) & 0xFF == 27:
+        if cv2.waitKey(100) & 0xFF == 27:  # Press Esc key to exit
             break
 
     # Close the video window
@@ -47,7 +57,12 @@ def select_roi_from_video(video_path):
     # Release the video capture object
     cap.release()
 
-    # Return ROI coordinates
-    return [x1, y1, x2, y2]
+    if roi_selected:
+        # Return ROI coordinates
+        return [x1, y1, x2, y2]
+    else:
+        # Return an empty list if ROI selection was not successful
+        return []
 
-
+# Example usage:
+# roi_coordinates = select_roi_from_video("video_path.mp4")

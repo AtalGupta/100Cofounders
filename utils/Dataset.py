@@ -4,23 +4,51 @@ from PIL import Image
 import pandas as pd
 
 class FrameExtractor:
+    """
+    A class for extracting frames from images based on a provided DataFrame.
+
+    Args:
+        org_dir (str): The directory containing the original images.
+        dataframe_dir (str): The directory containing DataFrames with bounding box coordinates.
+        output_dir (str): The directory where extracted frames will be saved.
+
+    Methods:
+        extract_frames:
+            Extracts frames from images based on bounding box coordinates in DataFrames.
+    """
+
     def __init__(self, org_dir, dataframe_dir, output_dir):
+        """
+        Initializes a FrameExtractor instance.
+
+        Args:
+            org_dir (str): The directory containing the original images.
+            dataframe_dir (str): The directory containing DataFrames with bounding box coordinates.
+            output_dir (str): The directory where extracted frames will be saved.
+        """
         self.org_dir = org_dir
         self.dataframe_dir = dataframe_dir
         self.output_dir = output_dir
 
     def extract_frames(self):
+        """
+        Extracts frames from images based on bounding box coordinates in DataFrames.
+
+        This method loops through each DataFrame and extracts frames based on the
+        bounding box coordinates, saving them to the specified output directory.
+        """
         df_dir = os.listdir(self.dataframe_dir)
         img_dir = os.listdir(self.org_dir)
-        
+
+        # Delete the existing output directory if it exists, then create a new one.
         delete_directory(self.output_dir)
         create_directory(self.output_dir)
-        
+
         num = 0
         for ele in range(len(df_dir)):
             img = Image.open(os.path.join(self.org_dir, img_dir[ele]))
             df = pd.read_csv(os.path.join(self.dataframe_dir, df_dir[ele]))
-            
+
             for _, row in df.iterrows():
                 xmin, ymin, xmax, ymax, person_id = (
                     row['xmin'],
