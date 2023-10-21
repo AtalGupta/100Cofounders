@@ -1,5 +1,5 @@
 import os
-from utils.properties import delete_directory, create_directory
+from utils.properties import delete_directory, create_directory,check_roi
 from PIL import Image
 import pandas as pd
 
@@ -17,7 +17,7 @@ class FrameExtractor:
             Extracts frames from images based on bounding box coordinates in DataFrames.
     """
 
-    def __init__(self, org_dir, dataframe_dir, output_dir):
+    def __init__(self, org_dir, dataframe_dir, output_dir,roi):
         """
         Initializes a FrameExtractor instance.
 
@@ -29,6 +29,7 @@ class FrameExtractor:
         self.org_dir = org_dir
         self.dataframe_dir = dataframe_dir
         self.output_dir = output_dir
+        self.roi=roi
 
     def extract_frames(self):
         """
@@ -58,11 +59,13 @@ class FrameExtractor:
                     int(row['id'])
                 )
                 box = (xmin, ymin, xmax, ymax)
-                img2 = img.crop(box)
-                file_name = str(num) + "_" + str(person_id) + ".jpg"
-                file_path = os.path.join(self.output_dir, file_name)
-                img2.save(file_path)
-                num += 1
+                center_x,center_y=(xmin+xmax)/2,(ymin+ymax)/2
+                if(check_roi(center_x,center_y,ROI=self.roi)):
+                    img2 = img.crop(box)
+                    file_name = str(num) + "_" + str(person_id) + ".jpg"
+                    file_path = os.path.join(self.output_dir, file_name)
+                    img2.save(file_path)
+                    num += 1
 
 # Usage example:
 # extractor = FrameExtractor("outputs/org_dir", "outputs/dataframe_dir", "outputs/dataset")

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import torch
 from utils.Detector import Detector
 from utils.properties import Properties, save_data, delete_directory
-from utils.detect_time import timer
+from utils.detect_time import Timer
 from utils.make_video import VideoEncoder
 from utils.Dataset import FrameExtractor
 from utils.fps_conversion import convert_to_5fps
@@ -22,11 +22,11 @@ model_2 = YOLO('models\yolov8n-pose.pt')  # Load an official Segment model
 model_3 = YOLO('models\yolov8n-seg.pt')  # Load an official Pose model
 
 # Input video path
-input_path = "Shortit.mp4"
+path = "Shortit.mp4"
 
 # Convert input video to 5fps and save it
-convert_to_5fps(input_path, "5fps_video.mp4")
-path = "5fps_video.mp4"
+# convert_to_5fps(input_path, "5fps_video.mp4")
+# path = "5fps_video.mp4"
 
 # Initialize properties of the video
 prop = Properties(path)
@@ -59,7 +59,7 @@ frame_list = detector.detect()
 save_data(data_list=frame_list, image_dir_path=image_dir_path, df_dir_path=df_dir_path)
 
 # Create a timer to measure the time spent by objects in the ROI
-Time = timer(frame_list, roi)
+Time = Timer(frame_list, roi)
 
 # Calculate and display the time spent by objects in the ROI
 result = Time.put_time()
@@ -70,7 +70,7 @@ Video_maker.encode_frames(result, "outputs")
 
 # Extract frames from the original video based on the provided DataFrames
 fext = FrameExtractor(org_dir="outputs\org_dir", dataframe_dir="outputs\dataframe_dir",
-                    output_dir="outputs\dataset")
+                    output_dir="outputs\dataset",roi=roi)
 
 # Execute the frame extraction process
 fext.extract_frames()
