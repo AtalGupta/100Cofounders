@@ -66,7 +66,7 @@ class Detector:
         cnt = 0
         for i in tqdm(range(self.num_frames), ncols=200):
             _, frame = video.read()
-            result = self.model.track(frame, persist=True)
+            result = self.model.track(frame,classes=[0],persist=True)
 
             if self.save:
                 os.makedirs(self.out_path, exist_ok=True)
@@ -77,8 +77,12 @@ class Detector:
             annotated_frame = result[0].plot()
             XMIN, YMIN, XMAX, YMAX = self.ROI.astype(int)
             cv2.rectangle(annotated_frame, (XMIN, YMIN), (XMAX, YMAX), (0, 255, 0), 5)
-            df = pd.DataFrame(result[0].cpu().numpy().boxes.data,
-                              columns=['xmin', 'ymin', 'xmax', 'ymax', 'id', 'conf', 'class'])
+            try:
+                 df = pd.DataFrame(result[0].cpu().numpy().boxes.data,
+                                columns=['xmin', 'ymin', 'xmax', 'ymax', 'id', 'conf'])
+            except:
+                print("Skipping frame")
+                continue
 
             curr = (annotated_frame, df)
             frame_list.append(curr)
