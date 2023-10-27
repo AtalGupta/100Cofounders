@@ -22,7 +22,7 @@ model_2 = YOLO('visitor-dwell-time\models\yolov8n-pose.pt')  # Load an official 
 model_3 = YOLO('visitor-dwell-time\models\yolov8n-seg.pt')  # Load an official Pose model
 
 # Input video path
-path = "video_1\out02.mp4"
+path = "oct-4-9-1230.mp4"
 
 # Convert input video to 5fps and save it
 # convert_to_5fps(input_path, "5fps_video.mp4")
@@ -41,9 +41,7 @@ org_height, org_width, org_fps, org_num_frames = prop.height(), prop.width(), pr
 image_dir_path = "visitor-dwell-time\\temp_output\image_directory"
 df_dir_path = "visitor-dwell-time\\temp_output\dataframe_directory"
 
-# Delete existing directories if they exist
-delete_directory(image_dir_path)
-delete_directory(df_dir_path)
+
 
 num_frame = org_num_frames # Number of frames to process
 out_path = "visitor-dwell-time\\temp_output\orginal_directory"
@@ -70,8 +68,12 @@ save_data(data_list=frame_list, image_dir_path=image_dir_path, df_dir_path=df_di
 
 # Extract frames from the original video based on the provided DataFrames
 fext = FrameExtractor(org_dir=out_path, dataframe_dir=df_dir_path,
-                    output_dir="generated_data\data_2",roi=roi)
+                    output_dir="generated_data\data_xd_1",roi=roi)
 
 # Execute the frame extraction process
-fext.extract_frames(vid_name="2")
-delete_directory(out_path)
+fext.extract_frames(vid_name="21")
+# delete_directory(out_path)
+# # Delete existing directories if they exist
+# delete_directory(image_dir_path)
+# delete_directory(df_dir_path)
+

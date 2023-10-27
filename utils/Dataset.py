@@ -62,7 +62,7 @@ class FrameExtractor:
                 center_x,center_y=(xmin+xmax)/2,(ymin+ymax)/2
                 if(check_roi(center_x,center_y,ROI=self.roi)):
                     img2 = img.crop(box)
-                    file_name = vid_name+str(num) + "_" + str(person_id) + ".jpg"
+                    file_name = vid_name+"_"+str(num) + "_" + str(person_id) + ".jpg"
                     file_path = os.path.join(self.output_dir, file_name)
                     img2.save(file_path)
                     num += 1
